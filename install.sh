@@ -1,7 +1,7 @@
 git clone git://github.com/kennethreitz/autoenv.git ~/.autoenv
 echo 'source ~/.autoenv/activate.sh' >> ~/.bashrc
 
-sudo apt-get install pip
+sudo apt-get install python-pip
 sudo pip install virtualenvwrapper
 sudo mkdir /home/djangoprojects
 echo 'export WORKON_HOME=~/.virtualenvs' >> ~/.bashrc
