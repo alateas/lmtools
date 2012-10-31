@@ -6,7 +6,7 @@ echo 'source ~/.autoenv/activate.sh' >> ~/.bashrc
 sudo apt-get -y update
 sudo apt-get -y install libmysqlclient-dev build-dep python-mysqldb
 
-sudo apt-get install python-pip
+sudo apt-get -y install python-pip
 sudo pip install virtualenvwrapper
 echo 'export WORKON_HOME=~/.virtualenvs' >> ~/.bashrc
 echo 'source /usr/local/bin/virtualenvwrapper.sh' >> ~/.bashrc
