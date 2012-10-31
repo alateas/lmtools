@@ -15,6 +15,7 @@ echo 'export PIP_RESPECT_VIRTUALENV=true' >> ~/.bashrc
 
 export DATABASE_URL="mysql://outlets_dev:outlets_dev@192.168.106.10/outlets_dev"
 
+source ~/.bashrc
 cd $BASEDIR
 mkvirtualenv mkvirtualenv
 pip install -r requirements.txt
