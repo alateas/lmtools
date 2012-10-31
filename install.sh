@@ -3,7 +3,6 @@ echo 'source ~/.autoenv/activate.sh' >> ~/.bashrc
 
 sudo apt-get install python-pip
 sudo pip install virtualenvwrapper
-sudo mkdir /home/djangoprojects
 echo 'export WORKON_HOME=~/.virtualenvs' >> ~/.bashrc
 echo 'source /usr/local/bin/virtualenvwrapper.sh' >> ~/.bashrc
 echo 'export PIP_VIRTUALENV_BASE=$WORKON_HOME' >> ~/.bashrc
