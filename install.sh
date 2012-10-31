@@ -17,5 +17,5 @@ export DATABASE_URL="mysql://outlets_dev:outlets_dev@192.168.106.10/outlets_dev"
 
 source ~/.bashrc
 cd $BASEDIR
-mkvirtualenv mkvirtualenv
+mkvirtualenv outlets
 pip install -r requirements.txt
