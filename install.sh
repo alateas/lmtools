@@ -3,8 +3,8 @@ BASEDIR=$(dirname $0)
 git clone git://github.com/kennethreitz/autoenv.git ~/.autoenv
 echo 'source ~/.autoenv/activate.sh' >> ~/.bashrc
 
-apt-get -y update
-apt-get -y install libmysqlclient-dev build-dep python-mysqldb
+sudo apt-get -y update
+sudo apt-get -y install libmysqlclient-dev build-dep python-mysqldb
 
 sudo apt-get install python-pip
 sudo pip install virtualenvwrapper
