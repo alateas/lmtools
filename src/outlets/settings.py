@@ -10,7 +10,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {'default': dj_database_url.config(default='postgres://...')}
+DATABASES = {'default': dj_database_url.config(default='mysql://...')}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
