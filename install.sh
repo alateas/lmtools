@@ -23,9 +23,6 @@ echo 'export PIP_VIRTUALENV_BASE=$WORKON_HOME' >> ~/.bashrc
 echo 'export PIP_RESPECT_VIRTUALENV=true' >> ~/.bashrc
 echo 'source /usr/local/bin/virtualenvwrapper.sh' >> ~/.bashrc
 
-#set default database url
-export DATABASE_URL="mysql://outlets_dev:outlets_dev@192.168.106.10/outlets_dev"
-
 #use virtualenvwrapper
 export WORKON_HOME='~/.virtualenvs'
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
