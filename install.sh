@@ -10,7 +10,8 @@ echo 'source ~/.autoenv/activate.sh' >> ~/.bashrc
 
 #install dependencies for mysql-python lib
 sudo apt-get -y update
-sudo apt-get -y install libmysqlclient-dev build-dep python-mysqldb
+sudo apt-get -y install libmysqlclient-dev
+sudo apt-get -y build-dep python-mysqldb
 
 #install pip
 sudo apt-get -y install python-pip
