@@ -31,10 +31,9 @@ pwd > /home/user/pwd.txt
 cat ~/.bashrc > /home/user/bashrc.txt
 
 #create new virualenv
-source ~/.bashrc
-source which virtualenvwrapper.sh
+source ~/.bashrc > /home/user/bashrc.log
 cd $SCRIPTPATH
-mkvirtualenv outlets
+mkvirtualenv outlets > /home/user/mkvirtualenv.log
 
 #install libs to new virtualenv
-pip install -r requirements.txt
+pip install -r requirements.txt > /home/user/pipinstall.log
