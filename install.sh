@@ -25,11 +25,6 @@ echo 'source /usr/local/bin/virtualenvwrapper.sh' >> ~/.bashrc
 #set default database url
 export DATABASE_URL="mysql://outlets_dev:outlets_dev@192.168.106.10/outlets_dev"
 
-#debug logging
-cd ~
-pwd > /home/user/pwd.txt
-cat ~/.bashrc > /home/user/bashrc.txt
-
 #use virtualenvwrapper
 export WORKON_HOME='~/.virtualenvs'
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
@@ -41,4 +36,5 @@ mkvirtualenv outlets
 workon outlets
 
 #install libs to new virtualenv
+cd $SCRIPTPATH
 pip install -r requirements.txt > /home/user/pipinstall.log
