@@ -38,4 +38,4 @@ workon outlets
 
 #install libs to new virtualenv
 cd $SCRIPTPATH
-pip install -r requirements.txt > /home/user/pipinstall.log
+pip install -r requirements.txt
