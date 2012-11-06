@@ -2,7 +2,7 @@ import os
 import sys
 import site
 
-site.addsitedir('~/.virtualenvs/lib/python2.7/site-packages')
+site.addsitedir('home/user/.virtualenvs/outlets/lib/python2.7/site-packages')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
