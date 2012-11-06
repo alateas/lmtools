@@ -13,9 +13,9 @@ def update_django_project():
         run('git pull')
         with prefix('source /home/user/.virtualenvs/outlets/bin/activate'):
             run('pip install -r requirements.txt')
-            run('python /src/manage.py syncdb')
-            run('python /src/manage.py migrate') # if you use south
-            run('python /src/manage.py collectstatic --noinput')
+            run('python src/manage.py syncdb')
+            run('python src/manage.py migrate') # if you use south
+            run('python src/manage.py collectstatic --noinput')
 
 def restart_webserver():
     """ Restarts remote nginx and uwsgi.
