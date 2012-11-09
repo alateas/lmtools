@@ -2,4 +2,5 @@
 *.pot
 *.pyc
 *.pyo
+static/*
 local_settings.py
