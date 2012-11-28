@@ -1,4 +1,4 @@
-outlets
+djnew
 =======
 
-outlets database for enterprise
+Prototype for django project. Ready to heroku deploy.

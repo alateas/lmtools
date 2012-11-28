@@ -30,8 +30,8 @@ export PIP_RESPECT_VIRTUALENV=true
 source /usr/local/bin/virtualenvwrapper.sh
 
 #create new virtualenv
-mkvirtualenv outlets
-workon outlets
+mkvirtualenv djnew
+workon djnew
 
 #install libs to new virtualenv
 cd $SCRIPTPATH
