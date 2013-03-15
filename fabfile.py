@@ -9,13 +9,13 @@ env.user = "user"
 def update_django_project():
     """ Updates the remote django project.
     """
-    with cd('/home/djangoprojects/outlets'):
+    with cd('/home/djangoprojects/lmtools'):
         run('git pull')
-        with prefix('source /home/user/.virtualenvs/outlets/bin/activate'):
+        with prefix('source /home/user/.virtualenvs/lmtools/bin/activate'):
             run('pip install -r requirements.txt')
-            run('python src/manage.py syncdb')
-            run('python src/manage.py migrate') # if you use south
-            run('python src/manage.py collectstatic --noinput')
+            #run('python src/manage.py syncdb')
+            #run('python src/manage.py migrate') # if you use south
+            #run('python src/manage.py collectstatic --noinput')
 
 def restart_webserver():
     """ Restarts remote nginx and uwsgi.
