@@ -8,3 +8,4 @@ dj-database-url==0.2.1
 pycrypto==2.6
 ssh==1.8.0
 wsgiref==0.1.2
+django-bootstrap-toolkit

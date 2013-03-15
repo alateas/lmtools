@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#home" data-toggle="tab">Temp</a></li>
+    <li><a href="#profile" data-toggle="tab">Thin clients</a></li>
+    <li><a href="#messages" data-toggle="tab">Phones</a></li>
+    <li><a href="#settings" data-toggle="tab">Computers</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="home">1</div>
+    <div class="tab-pane" id="profile">2</div>
+    <div class="tab-pane" id="messages">3</div>
+    <div class="tab-pane" id="settings">4</div>
+</div>    
+
+{% endblock %}
