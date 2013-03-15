@@ -20,7 +20,7 @@ def update_django_project():
 def restart_webserver():
     """ Restarts remote nginx and uwsgi.
     """
-    sudo("service uwsgi restart")
+    sudo("service uwsgi_lmtools restart")
     sudo("/etc/init.d/nginx restart")
 
 def deploy():
