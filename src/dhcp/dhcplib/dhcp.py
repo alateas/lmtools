@@ -6,11 +6,10 @@ class Dhcp():
         request = DhcpRequest("daniel")
         raw_leases = request.get_leases()
 
-        log_file = open("out.txt","w")
-        for line in raw_leases:
-            log_file.write(str(line) + "\n")
-        log_file.close()
-
+        # log_file = open("out.txt","w")
+        # for line in raw_leases:
+            # log_file.write(str(line) + "\n")
+        # log_file.close()
 
         parser = DhcpParser(raw_leases)
         self.leases = parser.parse()

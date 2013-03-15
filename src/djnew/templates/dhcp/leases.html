@@ -9,7 +9,24 @@
     <li><a href="#settings" data-toggle="tab">Computers</a></li>
 </ul>
 <div class="tab-content">
-    <div class="tab-pane active" id="home">1</div>
+    <div class="tab-pane active" id="home">
+        <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>ip</th><th>mac</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lease in leases %}
+
+            <tr>
+                <td>{{ lease.ip }}</td>
+                <td>{{ lease.mac }}</td>
+            </tr>
+        {% endfor %}
+        <tbody>
+        </table>
+    </div>
     <div class="tab-pane" id="profile">2</div>
     <div class="tab-pane" id="messages">3</div>
     <div class="tab-pane" id="settings">4</div>
