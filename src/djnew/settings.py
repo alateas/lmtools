@@ -1,7 +1,9 @@
 # Django settings for outlets project.
 import dj_database_url
 import os.path
+import passw
 
+PASSWORDS = passw.PASSWORDS
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

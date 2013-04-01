@@ -1,12 +1,13 @@
 import subprocess
+from django.conf import settings
 
 class DhcpRequest():
     def __init__(self, server):
         self.__server = server
 
     def __server_call(self, command):
-        user = "alateas"
-        password = "ololo"
+        user = settings.PASSWORDS['autoadmin'][0]
+        password = settings.PASSWORDS['autoadmin'][1]
         prefix = ["winexe", "-U", user, "--password=%s" % password, "//%s" % self.__server]
         # result_cmd = "%s \"%s\"" % (prefix, command)
         prefix.append(command)
