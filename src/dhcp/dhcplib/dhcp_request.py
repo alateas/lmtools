@@ -8,7 +8,7 @@ class DhcpRequest():
         prefix = ["winexe", "-U", self.__user, "--password=%s" % self.__password, "//%s" % self.__server]
         # result_cmd = "%s \"%s\"" % (prefix, command)
         prefix.append(command)
-        output = subprocess.check_output(prefix)
+        output = subprocess.Popen(prefix, stdout=subprocess.PIPE).communicate()[0]
         return output.split("\n")
 
     def get_leases(self):
