@@ -2,8 +2,8 @@ from dhcp_parser import DhcpParser
 from dhcp_request import DhcpRequest
 
 class Dhcp():
-    def __init__(self):
-        request = DhcpRequest("daniel")
+    def __init__(self, server, user, password):
+        request = DhcpRequest(server, user, password)
         raw_leases = request.get_leases()
 
         # log_file = open("out.txt","w")

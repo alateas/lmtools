@@ -5,6 +5,7 @@ from dhcp_parser import *
 from dhcp import Dhcp
 from network import *
 import main
+import test_pass
 
 class TestNetwork(unittest.TestCase):
     def test_ip_to_str(self):
@@ -28,7 +29,7 @@ class TestNetwork(unittest.TestCase):
 
 class TestDhcpRequest(unittest.TestCase):
     def setUp(self):
-        self.__request = DhcpRequest("daniel")
+        self.__request = DhcpRequest(test_pass.info['server'], test_pass.info['login'], test_pass.info['password'])
     
     def test_get_leases(self):
         raw_leases = self.__request.get_leases()
@@ -66,7 +67,7 @@ class TestDhcpParser(unittest.TestCase):
 
 class TestDhcp(unittest.TestCase):
     def setUp(self):
-        self.dhcp = Dhcp()
+        self.dhcp = Dhcp(test_pass.info['server'], test_pass.info['login'], test_pass.info['password'])
 
     def test_get_range(self):
         leases = self.dhcp.get_range("104")

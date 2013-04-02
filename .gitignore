@@ -5,4 +5,5 @@
 .env
 static/*
 src/djnew/passw.py
+src/dhcp/dhcplib/test_pass.py
 local_settings.py
