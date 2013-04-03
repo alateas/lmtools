@@ -5,7 +5,7 @@ class DhcpRequest():
         self.__server, self.__user, self.__password = server, user, password
 
     def __server_call(self, command):
-        prefix = ["winexe", "-U", self.__user, "--password='%s'" % self.__password, "//%s" % self.__server]
+        prefix = ["winexe", "-U", self.__user, "--password=\"%s\"" % self.__password, "//%s" % self.__server]
         # result_cmd = "%s \"%s\"" % (prefix, command)
         prefix.append("\"%s\"" % command)
         final = " ".join(prefix)
