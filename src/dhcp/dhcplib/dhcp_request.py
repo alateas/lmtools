@@ -5,10 +5,11 @@ class DhcpRequest():
         self.__server, self.__user, self.__password = server, user, password
 
     def __server_call(self, command):
-        prefix = ["winexe", "-U", self.__user, "--password=%s" % self.__password, "//%s" % self.__server]
+        prefix = ["winexe", "-U", self.__user, "--password='%s'" % self.__password, "//%s" % self.__server]
         # result_cmd = "%s \"%s\"" % (prefix, command)
-        prefix.append(command)
-        output = subprocess.Popen(prefix, stdout=subprocess.PIPE).communicate()[0]
+        prefix.append("\"%s\"" % command)
+        final = " ".join(prefix)
+        output = subprocess.Popen(final, stdout=subprocess.PIPE, shell=True).communicate()[0]
         return output.split("\n")
 
     def get_leases(self):
