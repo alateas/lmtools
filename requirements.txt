@@ -10,3 +10,4 @@ ssh==1.8.0
 wsgiref==0.1.2
 django-bootstrap-toolkit
 python-daemon
+pika
