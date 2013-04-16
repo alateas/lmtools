@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}DHCP leases{% end %}
+
+{% block content %}
+
+<ul class="nav nav-tabs" id="leases_tab">
+    <li class="active"><a href="#thin_clients" data-toggle="tab">Тонкие клиенты</a></li>
+    <li><a href="#machine" data-toggle="tab">Станки</a></li>
+    <li><a href="#ip_cameras" data-toggle="tab">ip-камеры</a></li>
+    <li><a href="#temp_servers" data-toggle="tab">Сервера временный</a></li>
+    <li><a href="#computers" data-toggle="tab">Рабочие станции</a></li>
+    <li><a href="#personal_unlim" data-toggle="tab">Личные девайсы анлим</a></li>
+    <li><a href="#personal_others" data-toggle="tab">Личные девайсы остальные</a></li>
+    <li><a href="#ip_phones" data-toggle="tab">ip-фоны</a></li>
+    <li><a href="#printers" data-toggle="tab">принтеры</a></li>
+    <li><a href="#temp" data-toggle="tab">временные</a></li>
+    <li><a href="#servers" data-toggle="tab">Сервера</a></li>
+</ul>
+ 
+<div class="tab-content">
+    <div class="tab-pane active" id="thin_clients">thin_clients</div>
+    <div class="tab-pane" id="machine">machine</div>
+    <div class="tab-pane" id="ip_cameras">ip_cameras</div>
+    <div class="tab-pane" id="temp_servers">temp_servers</div>
+    <div class="tab-pane" id="computers">computers</div>
+    <div class="tab-pane" id="personal_unlim">personal_unlim</div>
+    <div class="tab-pane" id="personal_others">personal_others</div>
+    <div class="tab-pane" id="ip_phones">ip_phones</div>
+    <div class="tab-pane" id="printers">printers</div>
+    <div class="tab-pane" id="temp">temp</div>
+    <div class="tab-pane" id="servers">servers</div>
+</div>
+ 
+{% end %}
