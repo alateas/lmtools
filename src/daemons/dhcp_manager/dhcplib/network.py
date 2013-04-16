@@ -1,3 +1,5 @@
+import socket, struct
+
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
@@ -28,6 +30,12 @@ class Ip():
         for num in numbers:
             if num < 0 or num > 255:
                 raise InputError('ip class creation', 'ip numbers can\'t be negetive or grather than 255')
+
+    def __gt__(self, ip2):
+        return socket.inet_aton(str(self)) > socket.inet_aton(str(ip2))
+
+    def __lt__(self, ip2):
+        return socket.inet_aton(str(self)) < socket.inet_aton(str(ip2))
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__

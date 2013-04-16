@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*- 
+
 import re
 import network
+import chardet
+
 def lease_factory(type):
     if(type=='D'):
         return TemporaryLease
@@ -7,12 +11,13 @@ def lease_factory(type):
         return ReservedLease
 
 class Lease():
-    def __init__(self, ip, mac):
+    def __init__(self, ip, mac, name):
         self.ip = ip
         self.mac = mac
+        self.name = name
 
     def __str__(self):
-        return "%s [%s]" % (self.ip, self.mac)
+        return "{%s} %s [%s]" % (self.name, self.ip, self.mac)
 
     def __repr__(self):
         return "%s(%s)" % ( self.__class__, self.__str__() )
@@ -36,23 +41,27 @@ class DhcpParser():
 
     def parse(self):
         self.leases = []
+        date_regexp = re.compile('(\d{2}\.\d{2}.\d{4}\s\d{1,2}:\d{2}:\d{2})')
+        name_regexp = re.compile('(-(D|U|N|R)-)\s*(.*)\r?')
         for line in self.__raw:
-            regular = re.compile('\d{2}\.\d{2}.\d{4}\s\d{1,2}:\d{2}:\d{2}')
-            if(line.startswith("192.168.1")):
+            if(line.startswith("192.168")):
+                searched_name = name_regexp.search(line)
+                name = searched_name.groups()[2].decode('cp866')
+                print name
+                line = line[:-(len(name)+1)]
                 date = False
-                searched = regular.search(line)
-                if searched:
-                    date = line[searched.span()[0]:searched.span()[1]]
-                    line = line[:searched.span()[0]]+ line[searched.span()[1]:]
+                searched_date = date_regexp.search(line)
+                if searched_date:
+                    date = line[searched_date.span()[0]:searched_date.span()[1]]
+                    line = line[:searched_date.span()[0]]+ line[searched_date.span()[1]:]
+                    # print line
 
                 s = " ".join(line.split()).replace("-", "").split(" ")
                 s.remove("")
                 s.remove("")
-                s.pop(len(s)-2)
-                reserved = bool()
                 ip = network.Ip.from_string(s[0])
                 mac = network.Mac(s[2])
-                lease = lease_factory(s[-1])(ip, mac)
+                lease = lease_factory(s[-1])(ip, mac, name)
                 if(date):
                     lease.set_date(date)
                 self.leases.append(lease);

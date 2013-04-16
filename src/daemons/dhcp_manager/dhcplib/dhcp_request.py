@@ -13,5 +13,5 @@ class DhcpRequest():
         return output.split("\n")
 
     def get_leases(self):
-        return self.__server_call("netsh dhcp server scope 192.168.104.0 show clients 0")
+        return self.__server_call("netsh dhcp server scope 192.168.104.0 show clients 1")
         # return self.__server_call(["netsh", "dhcp", "server", "scope", "192.168.104.0", "show", "clients", "0"])        

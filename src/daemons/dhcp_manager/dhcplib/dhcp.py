@@ -14,9 +14,9 @@ class Dhcp():
         parser = DhcpParser(raw_leases)
         self.leases = parser.parse()
 
-    def get_range(self, range_nummber):
+    def get_range(self, ip_start, ip_stop):
         out = []
         for lease in self.leases:
-            if lease.ip.num1==192 and lease.ip.num2==168 and lease.ip.num3==range_nummber:
+            if (lease.ip > ip_start) and (lease.ip < ip_stop):
                 out.append(lease)
         return out

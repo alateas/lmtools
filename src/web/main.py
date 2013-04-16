@@ -3,6 +3,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
+import tornado.httpclient
 import os
 # import tornado
 # from basic import require_basic_auth
@@ -12,9 +13,9 @@ from tornado.options import define, options
 define("port", default=8888, help="run on the given port", type=int)
 
 # @require_basic_auth('Authrealm', ldapauth.auth_user_ldap)
-class MainHandler(tornado.web.RequestHandler):
+class LeasesHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("base.html")
+        self.render("leases.html")
 
 def main():
     static_path = '/home/alateas/lmtools/static'
@@ -22,7 +23,8 @@ def main():
     tornado.options.parse_command_line()
     application = tornado.web.Application(
         [
-            (r"/", MainHandler),
+            # (r"/", MainHandler),
+            (r"/leases", LeasesHandler),
             (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': static_path}),
         ],
         template_path=os.path.join(os.path.dirname(__file__), "templates"),

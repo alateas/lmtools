@@ -44,9 +44,9 @@ class TestDhcpRequest(unittest.TestCase):
 class TestDhcpParser(unittest.TestCase):
     def test_different_leases(self):
         raw = [
-        "192.168.104.1   - 255.255.248.0  -38-60-77-b4-63-f4   - ìàÄâÉÇìêùàìÄ        -U",
-        "192.168.104.210 - 255.255.248.0  -99-99-99-99-99-98   - ìàÇèÆêéìÄ             -N",
-        "192.168.110.17  - 255.255.248.0  - 5c-b5-24-03-f1-29   -23.06.2015 12:49:10    -D",
+        "192.168.104.1   - 255.255.248.0  -38-60-77-b4-63-f4   - ìàÄâÉÇìêùàìÄ        -U- ololo.uz.local",
+        "192.168.104.210 - 255.255.248.0  -99-99-99-99-99-98   - ìàÇèÆêéìÄ             -N- atata ololo qwe\r",
+        "192.168.110.17  - 255.255.248.0  -5c-b5-24-03-f1-29   -23.06.2015 12:49:10    -D- 123",
         ]
 
         parser = DhcpParser(raw)
@@ -70,13 +70,15 @@ class TestDhcp(unittest.TestCase):
         self.dhcp = Dhcp(test_pass.info['server'], test_pass.info['login'], test_pass.info['password'])
 
     def test_get_range(self):
-        leases = self.dhcp.get_range("104")
+        leases = self.dhcp.get_range(Ip(192,168,104,0), Ip(192,168,104,255))
+        self.assertTrue(bool(leases))
         for lease in leases:
-            self.assertTrue(lease.ip.startswith("192.168.104."))
+            self.assertTrue(str(lease.ip).startswith("192.168.104."))
 
-        leases = self.dhcp.get_range("110")
+        leases = self.dhcp.get_range(Ip(192,168,110,0), Ip(192,168,110,255))
+        self.assertTrue(bool(leases))
         for lease in leases:
-            self.assertTrue(lease.ip.startswith("192.168.110."))
+            self.assertTrue(str(lease.ip).startswith("192.168.110."))
 
 class TestRunMain(unittest.TestCase):
     def test_main_run(self):
