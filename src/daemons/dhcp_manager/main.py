@@ -4,15 +4,14 @@
 #standard python libs
 import logging
 import time
+import os
 
 #third party libs
 from daemon import runner
 import pika
 
 #internal libs
-from dhcplib.dhcp import Dhcp
-from passw import info
-import os
+from model import DhcpModel
 
 class App():
     def __init_log(self):
@@ -31,6 +30,8 @@ class App():
     def __init__(self):
         self.__init_log()
 
+        self.__model = DhcpModel()
+
         debug = True
         self.stdin_path = '/dev/null'
         if debug:
@@ -41,14 +42,12 @@ class App():
         self.pidfile_path = '/tmp/lmtools/dhcp_manager.pid'
         self.pidfile_timeout = 5
         
-        self.dhcp = Dhcp(info['server'], info['login'], info['password'])
-
            
     def on_request(self, ch, method, props, body):
         self.__logger.info("request: %s" % (body,))
         subnet = int(body)
         print " [x] Request: %s" % (body,)
-        response = self.dhcp.get_range(110)
+        response = self.__model.get_leases_by_range('192.168.110.0', '192.168.110.5')
         ch.basic_publish(exchange='', 
                          routing_key=props.reply_to,
                          properties=pika.BasicProperties(correlation_id = props.correlation_id),
