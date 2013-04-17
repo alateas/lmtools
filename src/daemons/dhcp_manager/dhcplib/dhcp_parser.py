@@ -2,7 +2,6 @@
 
 import re
 import network
-import chardet
 
 def lease_factory(type):
     if(type=='D'):
@@ -54,7 +53,6 @@ class DhcpParser():
                 if searched_date:
                     date = line[searched_date.span()[0]:searched_date.span()[1]]
                     line = line[:searched_date.span()[0]]+ line[searched_date.span()[1]:]
-                    # print line
 
                 s = " ".join(line.split()).replace("-", "").split(" ")
                 s.remove("")
