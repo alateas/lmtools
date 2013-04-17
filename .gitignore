@@ -4,7 +4,5 @@
 *.pyo
 .env
 static/*
-src/djnew/passw.py
 src/dhcp/dhcplib/test_pass.py
 src/daemons/dhcp_manager/passw.py
-local_settings.py
