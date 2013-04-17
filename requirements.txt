@@ -3,3 +3,4 @@ fabric
 wsgiref
 python-daemon
 pika
+protobuf
