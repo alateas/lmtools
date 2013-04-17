@@ -47,7 +47,7 @@ class App():
         self.__logger.info("request: %s" % (body,))
         subnet = int(body)
         print " [x] Request: %s" % (body,)
-        response = self.__model.get_leases_by_range('192.168.110.0', '192.168.110.5')
+        response = self.__model.get_leases_by_range('192.168.104.209', '192.168.104.211')
         ch.basic_publish(exchange='', 
                          routing_key=props.reply_to,
                          properties=pika.BasicProperties(correlation_id = props.correlation_id),
