@@ -61,8 +61,6 @@ class App():
 
         print " [x] Awaiting RPC requests"
         self.__channel.start_consuming()
-        # print self.dhcp.get_range(110)
-        # print os.path.realpath(__file__)
         # self.__logger.error("Error message")
 
 print os.path.realpath(__file__)

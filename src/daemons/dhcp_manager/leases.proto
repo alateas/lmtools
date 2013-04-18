@@ -1,0 +1,11 @@
+package dhcp_manager;
+
+message Lease {
+  required string name = 1;
+  required string ip = 2;
+  required string mac = 3;
+}
+
+message LeasesSet {
+  repeated Lease person = 1;
+}
