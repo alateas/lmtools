@@ -11,7 +11,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = descriptor.FileDescriptor(
   name='leases.proto',
   package='dhcp_manager',
-  serialized_pb='\n\x0cleases.proto\x12\x0c\x64hcp_manager\".\n\x05Lease\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\n\n\x02ip\x18\x02 \x02(\t\x12\x0b\n\x03mac\x18\x03 \x02(\t\"0\n\tLeasesSet\x12#\n\x06person\x18\x01 \x03(\x0b\x32\x13.dhcp_manager.Lease')
+  serialized_pb='\n\x0cleases.proto\x12\x0c\x64hcp_manager\".\n\x05Lease\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\n\n\x02ip\x18\x02 \x02(\t\x12\x0b\n\x03mac\x18\x03 \x02(\t\"/\n\tLeasesSet\x12\"\n\x05lease\x18\x01 \x03(\x0b\x32\x13.dhcp_manager.Lease')
 
 
 
@@ -66,7 +66,7 @@ _LEASESSET = descriptor.Descriptor(
   containing_type=None,
   fields=[
     descriptor.FieldDescriptor(
-      name='person', full_name='dhcp_manager.LeasesSet.person', index=0,
+      name='lease', full_name='dhcp_manager.LeasesSet.lease', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -82,10 +82,10 @@ _LEASESSET = descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=78,
-  serialized_end=126,
+  serialized_end=125,
 )
 
-_LEASESSET.fields_by_name['person'].message_type = _LEASE
+_LEASESSET.fields_by_name['lease'].message_type = _LEASE
 DESCRIPTOR.message_types_by_name['Lease'] = _LEASE
 DESCRIPTOR.message_types_by_name['LeasesSet'] = _LEASESSET
 

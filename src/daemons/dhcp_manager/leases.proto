@@ -7,5 +7,5 @@ message Lease {
 }
 
 message LeasesSet {
-  repeated Lease person = 1;
+  repeated Lease lease = 1;
 }
