@@ -1,0 +1,6 @@
+package dhcp_manager;
+
+message IpRangeRequest{
+  required string ip1 = 1;
+  required string ip2 = 2;   
+}

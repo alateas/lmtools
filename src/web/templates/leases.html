@@ -23,7 +23,13 @@
     <div class="tab-pane" id="machine">machine</div>
     <div class="tab-pane" id="ip_cameras">ip_cameras</div>
     <div class="tab-pane" id="temp_servers">temp_servers</div>
-    <div class="tab-pane" id="computers">computers</div>
+    <div class="tab-pane" id="computers">
+        <ul>
+        {% for lease in leases %}
+            <li>{{ escape(lease.name) }}</li>
+        {% end %}
+        </ul>
+    </div>
     <div class="tab-pane" id="personal_unlim">personal_unlim</div>
     <div class="tab-pane" id="personal_others">personal_others</div>
     <div class="tab-pane" id="ip_phones">ip_phones</div>
