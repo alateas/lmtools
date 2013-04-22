@@ -37,5 +37,15 @@
     <div class="tab-pane" id="temp">temp</div>
     <div class="tab-pane" id="servers">servers</div>
 </div>
+
  
+{% end %}
+
+{% block js %}
+    $('#leases_tab a').click(function (e) {
+        pane = $(this).attr('href').replace('#','')
+        url = '/ajax/dhcp/leases/' + pane
+        alert(url)
+        $(pane).load('/123')
+    })
 {% end %}
