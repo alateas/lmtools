@@ -14,6 +14,9 @@ class Dhcp():
         parser = DhcpParser(raw_leases)
         self.leases = parser.parse()
 
+    def get_all(self):
+        return self.leases
+        
     def get_range(self, ip_start, ip_stop):
         out = []
         for lease in self.leases:
