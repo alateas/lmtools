@@ -11,7 +11,8 @@ from daemon import runner
 import pika
 
 #internal libs
-from model import DhcpModel
+# from model import DhcpModel
+import controller
 
 class App():
     def __init_log(self):
@@ -30,7 +31,7 @@ class App():
     def __init__(self):
         self.__init_log()
 
-        self.__model = DhcpModel()
+        self.__controller = controller.DhcpController()
 
         debug = True
         self.stdin_path = '/dev/null'
@@ -45,13 +46,15 @@ class App():
            
     def on_request(self, ch, method, props, body):
         self.__logger.info("request: %s" % (body,))
-        ip1, ip2 = self.__model.get_ip_range_from_pb(body)
-        print " [x] Request: %s %s" % (ip1, ip2,)
-        response = self.__model.get_pb_leases_by_range(ip1, ip2)
+        
+        response = self.__controller.request(body)
+        # ip1, ip2 = self.__model.get_ip_range_from_pb(body)
+        # print " [x] Request: %s %s" % (ip1, ip2,)
+        # response = self.__model.get_pb_leases_by_range(ip1, ip2)
         ch.basic_publish(exchange='', 
                          routing_key=props.reply_to,
                          properties=pika.BasicProperties(correlation_id = props.correlation_id),
-                         body=str(response))
+                         body=response)
         ch.basic_ack(delivery_tag = method.delivery_tag)
 
     def run(self):

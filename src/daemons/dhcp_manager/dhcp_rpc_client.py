@@ -37,5 +37,5 @@ class DhcpRpcClient(object):
             self.connection.process_data_events()
         
         pb_leases = leases_pb2.LeasesSet()
-        pb_leases.ParseFromString(self.response)
+        pb_leases.ParseFromString(self.response.encode('utf8'))
         return pb_leases.lease
