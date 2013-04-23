@@ -15,12 +15,10 @@ class DhcpModel(object):
         return self.__dhcp.get_all()
 
     def get_pb_leases_by_range(self, ip1, ip2):
-        leases = self.__get_leases_by_range(ip1, ip2)
-        return self.__wrap_leases_to_pb(leases)
+        return self.__wrap_leases_to_pb( self.__get_leases_by_range(ip1, ip2) )
 
     def get_pb_all_leases(self):
-        leases = self.__get_all_leases()
-        return self.__wrap_leases_to_pb(leases)
+        return self.__wrap_leases_to_pb( self.__get_all_leases() )
 
     def __wrap_leases_to_pb(self, leases):
         pb_leases = leases_pb2.LeasesSet()

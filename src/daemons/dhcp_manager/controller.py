@@ -1,27 +1,25 @@
-from model import DhcpModel
-
 import requests_pb2
 
-class DhcpController(object):
+import commands
 
-    def __init__(self):
-        self.__model = DhcpModel()
+class DhcpController(object):
+    __router = {
+        'leases_get_all': commands.LeasesGetAll(),
+        'leases_get_range': commands.LeasesGetRange(),
+    }
 
     def request(self, body):
-        ip1, ip2 = self.__get_ip_range_from_pb(body)
-        print " [x] Request: %s %s" % (ip1, ip2,)
-        return self.__get_pb_leases_by_range(ip1, ip2)
-
-    def __get_ip_range_from_pb(self, raw_request):
+        command, params = self.__parse_pb_request(body)
+        if command in self.__router:
+            print " [x] Request: %s %s" % (command, params,)
+            return self.__router[command].call(params)
+        else:
+            print " [x] Unknown request: %s" % command
+            return 'Unknown request'
+            
+    def __parse_pb_request(self, raw_request):
         pb_request = requests_pb2.Request()
         pb_request.ParseFromString(raw_request)
-        if pb_request.command == 'leases_get_all':
-            return (i for i in pb_request.params)
-        else:
-            return None
-
-    def __get_pb_leases_by_range(self, ip1, ip2):
-        return self.__model.get_pb_leases_by_range(ip1, ip2)
-
-    def __get_pb_all_leases(self):
-        return self.__model.get_pb_all_leases()
+        cmd = pb_request.command
+        params = [i for i in pb_request.params]
+        return cmd, params

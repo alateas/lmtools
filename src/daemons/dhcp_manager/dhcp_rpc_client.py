@@ -23,7 +23,7 @@ class DhcpRpcClient(object):
 
     def get_range(self, ip1, ip2):
         data = requests_pb2.Request()
-        data.command = 'leases_get_all'
+        data.command = 'leases_get_range'
         data.params.append(ip1)
         data.params.append(ip2)
         self.response = None
