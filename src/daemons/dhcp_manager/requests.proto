@@ -1,6 +1,11 @@
 package dhcp_manager;
 
+message Request{
+    required string command = 1;
+    repeated string params = 2;
+}
+
 message IpRangeRequest{
-  required string ip1 = 1;
-  required string ip2 = 2;   
+    required string ip1 = 1;
+    required string ip2 = 2;   
 }

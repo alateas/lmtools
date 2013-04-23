@@ -12,10 +12,13 @@ class DhcpController(object):
         print " [x] Request: %s %s" % (ip1, ip2,)
         return self.__get_pb_leases_by_range(ip1, ip2)
 
-    def __get_ip_range_from_pb(self, pb_range_request):
-        pb_request = requests_pb2.IpRangeRequest()
-        pb_request.ParseFromString(pb_range_request)
-        return (pb_request.ip1, pb_request.ip2)
+    def __get_ip_range_from_pb(self, raw_request):
+        pb_request = requests_pb2.Request()
+        pb_request.ParseFromString(raw_request)
+        if pb_request.command == 'leases_get_all':
+            return (i for i in pb_request.params)
+        else:
+            return None
 
     def __get_pb_leases_by_range(self, ip1, ip2):
         return self.__model.get_pb_leases_by_range(ip1, ip2)

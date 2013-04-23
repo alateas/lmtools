@@ -22,8 +22,10 @@ class DhcpRpcClient(object):
             self.response = body
 
     def get_range(self, ip1, ip2):
-        data = requests_pb2.IpRangeRequest()
-        data.ip1, data.ip2 = ip1, ip2
+        data = requests_pb2.Request()
+        data.command = 'leases_get_all'
+        data.params.append(ip1)
+        data.params.append(ip2)
         self.response = None
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(exchange='',
