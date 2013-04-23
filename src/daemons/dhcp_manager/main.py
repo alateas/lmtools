@@ -64,7 +64,6 @@ class App():
 
         print " [x] Awaiting RPC requests"
         self.__channel.start_consuming()
-        # self.__logger.error("Error message")
 
 print os.path.realpath(__file__)
 app = App()

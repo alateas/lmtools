@@ -21,6 +21,5 @@ class Dhcp():
         out = []
         for lease in self.leases:
             if (lease.ip > ip_start) and (lease.ip < ip_stop):
-                print lease
                 out.append(lease)
         return out
