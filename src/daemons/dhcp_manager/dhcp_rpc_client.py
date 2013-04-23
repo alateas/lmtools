@@ -21,11 +21,11 @@ class DhcpRpcClient(object):
         if self.corr_id == props.correlation_id:
             self.response = body
 
-    def get_range(self, ip1, ip2):
+    def __do_request(self, command, *params):
         data = requests_pb2.Request()
-        data.command = 'leases_get_range'
-        data.params.append(ip1)
-        data.params.append(ip2)
+        data.command = command
+        for param in params:
+            data.params.append(param)
         self.response = None
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(exchange='',
@@ -37,7 +37,16 @@ class DhcpRpcClient(object):
                                    body=data.SerializeToString())
         while self.response is None:
             self.connection.process_data_events()
-        
+
+        return self.response.encode('utf8')
+
+    def __parse_raw_leases(self, raw):
         pb_leases = leases_pb2.LeasesSet()
-        pb_leases.ParseFromString(self.response.encode('utf8'))
+        pb_leases.ParseFromString(raw)
         return pb_leases.lease
+
+    def get_all(self):
+        return self.__parse_raw_leases( self.__do_request('leases_get_all') )
+
+    def get_range(self, ip1, ip2):
+        return self.__parse_raw_leases( self.__do_request('leases_get_range', ip1, ip2) )
