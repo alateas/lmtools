@@ -7,6 +7,7 @@ import tornado.httpclient
 import os
 
 from dhcp_rpc_client import DhcpRpcClient
+from leases_manager import LeasesManager
 
 # import tornado
 # from basic import require_basic_auth
@@ -18,9 +19,8 @@ define("port", default=8888, help="run on the given port", type=int)
 # @require_basic_auth('Authrealm', ldapauth.auth_user_ldap)
 class LeasesHandler(tornado.web.RequestHandler):
     def get(self):
-        dhcp = DhcpRpcClient()
-        pb_leases = dhcp.get_range('192.168.107.0','192.168.107.255')
-        self.render("leases.html", leases = pb_leases)
+        lm = LeasesManager( DhcpRpcClient().get_all() )
+        self.render("leases.html", leases = lm.get_sorted_leases())
 
 def main():
     static_path = '/home/alateas/lmtools/src/web/static'

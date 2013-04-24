@@ -5,47 +5,49 @@
 {% block content %}
 
 <ul class="nav nav-tabs" id="leases_tab">
-    <li class="active"><a href="#thin_clients" data-toggle="tab">Тонкие клиенты</a></li>
+    <li><a href="#thin_clients" data-toggle="tab">Тонкие клиенты</a></li>
     <li><a href="#machine" data-toggle="tab">Станки</a></li>
-    <li><a href="#ip_cameras" data-toggle="tab">ip-камеры</a></li>
+    <li><a href="#ip_cameras" data-toggle="tab">Ip-камеры</a></li>
     <li><a href="#temp_servers" data-toggle="tab">Сервера временный</a></li>
     <li><a href="#computers" data-toggle="tab">Рабочие станции</a></li>
     <li><a href="#personal_unlim" data-toggle="tab">Личные девайсы анлим</a></li>
     <li><a href="#personal_others" data-toggle="tab">Личные девайсы остальные</a></li>
-    <li><a href="#ip_phones" data-toggle="tab">ip-фоны</a></li>
-    <li><a href="#printers" data-toggle="tab">принтеры</a></li>
-    <li><a href="#temp" data-toggle="tab">временные</a></li>
+    <li><a href="#ip_phones" data-toggle="tab">Ip-фоны</a></li>
+    <li><a href="#printers" data-toggle="tab">Принтеры</a></li>
+    <li><a href="#temp" data-toggle="tab">Временные</a></li>
     <li><a href="#servers" data-toggle="tab">Сервера</a></li>
 </ul>
  
 <div class="tab-content">
-    <div class="tab-pane active" id="thin_clients">thin_clients</div>
-    <div class="tab-pane" id="machine">machine</div>
-    <div class="tab-pane" id="ip_cameras">ip_cameras</div>
-    <div class="tab-pane" id="temp_servers">temp_servers</div>
-    <div class="tab-pane" id="computers">
-        <ul>
-        {% for lease in leases %}
-            <li>{{ escape(lease.name) }}</li>
-        {% end %}
-        </ul>
+
+{% for ip_range, leases_list in leases.iteritems() %}
+    <div class="tab-pane" id="{{ escape(ip_range) }}">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th><th>IP</th><th>MAC</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lease in leases_list %}
+                    <tr>
+                        <td>{{ escape(lease.name) }}</td>
+                        <td>{{ escape(lease.ip) }}</td>
+                        <td>{{ escape(lease.mac) }}</td>
+                    </tr>
+                {% end %}
+            </tbody>
+        </table>
     </div>
-    <div class="tab-pane" id="personal_unlim">personal_unlim</div>
-    <div class="tab-pane" id="personal_others">personal_others</div>
-    <div class="tab-pane" id="ip_phones">ip_phones</div>
-    <div class="tab-pane" id="printers">printers</div>
-    <div class="tab-pane" id="temp">temp</div>
-    <div class="tab-pane" id="servers">servers</div>
+{% end %}
+
 </div>
 
  
 {% end %}
 
 {% block js %}
-    $('#leases_tab a').click(function (e) {
-        pane = $(this).attr('href').replace('#','')
-        url = '/ajax/dhcp/leases/' + pane
-        alert(url)
-        $(pane).load('/123')
-    })
+$(function () {
+    $('#leases_tab a:first').tab('show');
+})
 {% end %}
