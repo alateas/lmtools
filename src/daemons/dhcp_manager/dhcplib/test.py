@@ -49,8 +49,8 @@ class TestDhcpParser(unittest.TestCase):
         "192.168.110.17  - 255.255.248.0  -5c-b5-24-03-f1-29   -23.06.2015 12:49:10    -D- 123",
         ]
 
-        parser = DhcpParser(raw)
-        leases = parser.parse()
+        parser = DhcpParser()
+        leases = parser.parse(raw)
 
         self.assertEqual(leases[0].ip, Ip.from_string("192.168.104.1"))
         self.assertEqual(leases[1].ip, Ip.from_string("192.168.104.210"))

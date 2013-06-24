@@ -4,14 +4,40 @@ class DhcpRequest():
     def __init__(self, server, user, password):
         self.__server, self.__user, self.__password = server, user, password
 
+    def __get_array_command(self, command):
+        arr = ["cat","</dev/null", "|", "winexe", "--interactive=0", "-U", self.__user, "--password", self.__password, "//%s" % self.__server]
+        arr.append("%s" % command)
+        # print arr
+        return arr
+    
+    def __single_quote_params(self, arr, *numbers):
+        for num in numbers:
+            arr[num] = "'%s'" % (arr[num],)
+        
+    def __get_str_command(self, command):
+        formatted = self.__get_array_command(command)
+        self.__single_quote_params(formatted, 8, 10)
+        st = " ".join(formatted)
+        print st
+        return st
+
+    def __get_output(self, command, popen = False):
+        print "Before"
+        if popen:
+            res = subprocess.Popen(self.__get_str_command(command), stdout=subprocess.PIPE, shell=True).communicate()[0]
+        else:
+            res = subprocess.check_output(self.__get_array_command(command), shell=False)
+        print "After"
+        return res
+
     def __server_call(self, command):
-        prefix = ["winexe", "-U", self.__user, "--password=\"%s\"" % self.__password, "//%s" % self.__server]
-        # result_cmd = "%s \"%s\"" % (prefix, command)
-        prefix.append("\"%s\"" % command)
-        final = " ".join(prefix)
-        output = subprocess.Popen(final, stdout=subprocess.PIPE, shell=True).communicate()[0]
+        try:
+            output = self.__get_output(command, popen = True)
+        except subprocess.CalledProcessError, e:
+            print "[Exception output]: %s" % (e.output,)
+            raise e
+        
         return output.split("\n")
 
     def get_leases(self):
         return self.__server_call("netsh dhcp server scope 192.168.104.0 show clients 1")
-        # return self.__server_call(["netsh", "dhcp", "server", "scope", "192.168.104.0", "show", "clients", "0"])        

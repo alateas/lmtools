@@ -35,14 +35,11 @@ class TemporaryLease(Lease):
         return "%s TEMP" % Lease.__str__(self)
 
 class DhcpParser():
-    def __init__(self, raw):
-        self.__raw = raw
-
-    def parse(self):
+    def parse(self, raw):
         self.leases = []
         date_regexp = re.compile('(\d{2}\.\d{2}.\d{4}\s\d{1,2}:\d{2}:\d{2})')
         name_regexp = re.compile('(-(D|U|N|R)-){1}\s*(.*)')
-        for line in self.__raw:
+        for line in raw:
             if(line.startswith("192.168")):
                 searched_name = name_regexp.search(line)
                 name = searched_name.groups()[2].decode('cp866').rstrip('\r')
