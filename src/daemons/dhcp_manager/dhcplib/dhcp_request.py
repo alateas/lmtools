@@ -7,7 +7,6 @@ class DhcpRequest():
     def __get_array_command(self, command):
         arr = ["cat","</dev/null", "|", "winexe", "--interactive=0", "-U", self.__user, "--password", self.__password, "//%s" % self.__server]
         arr.append("%s" % command)
-        # print arr
         return arr
     
     def __single_quote_params(self, arr, *numbers):
@@ -17,18 +16,13 @@ class DhcpRequest():
     def __get_str_command(self, command):
         formatted = self.__get_array_command(command)
         self.__single_quote_params(formatted, 8, 10)
-        st = " ".join(formatted)
-        print st
-        return st
+        return " ".join(formatted)
 
     def __get_output(self, command, popen = False):
-        print "Before"
         if popen:
-            res = subprocess.Popen(self.__get_str_command(command), stdout=subprocess.PIPE, shell=True).communicate()[0]
+            return subprocess.Popen(self.__get_str_command(command), stdout=subprocess.PIPE, shell=True).communicate()[0]
         else:
-            res = subprocess.check_output(self.__get_array_command(command), shell=False)
-        print "After"
-        return res
+            return subprocess.check_output(self.__get_array_command(command), shell=False)
 
     def __server_call(self, command):
         try:
