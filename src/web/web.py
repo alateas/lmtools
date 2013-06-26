@@ -23,14 +23,12 @@ class LeasesHandler(tornado.web.RequestHandler):
         self.render("leases.html", leases = lm.get_sorted_leases())
 
 def main():
-    static_path = '/home/alateas/lmtools/src/web/static'
-
     tornado.options.parse_command_line()
     application = tornado.web.Application(
         [
             # (r"/", MainHandler),
             (r"/leases", LeasesHandler),
-            (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': static_path}),
+            (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
         ],
         template_path=os.path.join(os.path.dirname(__file__), "templates"),
         debug=True
