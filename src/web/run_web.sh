@@ -4,4 +4,4 @@ src_absolute=$(cd $src_relative; pwd)
 dhcp_absolute=$src_absolute/daemons/dhcp_manager
 PYTHONPATH=$src_absolute:$dhcp_absolute
 export PYTHONPATH
-python main.py
+python web.py
