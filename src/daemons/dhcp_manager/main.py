@@ -1,6 +1,3 @@
-# To kick off the script, run the following from the python directory:
-#   PYTHONPATH=`pwd` python testdaemon.py start
-
 #standard python libs
 import logging
 import time
@@ -11,7 +8,6 @@ from daemon import runner
 import pika
 
 #internal libs
-# from model import DhcpModel
 import controller
 
 class App():
@@ -33,7 +29,7 @@ class App():
 
         self.__controller = controller.DhcpController()
 
-        debug = True
+        debug = False
         self.stdin_path = '/dev/null'
         if debug:
             self.stdout_path = self.stderr_path = '/dev/tty'
@@ -48,9 +44,6 @@ class App():
         self.__logger.info("request: %s" % (body,))
         
         response = self.__controller.request(body)
-        # ip1, ip2 = self.__model.get_ip_range_from_pb(body)
-        # print " [x] Request: %s %s" % (ip1, ip2,)
-        # response = self.__model.get_pb_leases_by_range(ip1, ip2)
         ch.basic_publish(exchange='', 
                          routing_key=props.reply_to,
                          properties=pika.BasicProperties(correlation_id = props.correlation_id),
@@ -65,7 +58,6 @@ class App():
         print " [x] Awaiting RPC requests"
         self.__channel.start_consuming()
 
-print os.path.realpath(__file__)
 app = App()
 daemon_runner = runner.DaemonRunner(app)
 #This ensures that the logger file handle does not get closed during daemonization
