@@ -6,10 +6,10 @@ from fabric.api import *
 env.hosts = ['web']
 env.user = "user"
 
-def update_django_project():
+def update_project():
     """ Updates the remote django project.
     """
-    with cd('/home/djangoprojects/lmtools'):
+    with cd('/opt/lmtools'):
         run('git pull')
         with prefix('source /home/user/.virtualenvs/lmtools/bin/activate'):
             run('pip install -r requirements.txt')
