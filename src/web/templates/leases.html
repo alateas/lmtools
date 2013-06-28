@@ -44,7 +44,7 @@
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                         {% for ip_range in leases %}
                                             {% if ip_range!='temp' %}
-                                                <li role="presentation"><a href="#myModal" data-toggle="modal" tabindex="-1" role="menuitem">{{ escape(ip_range) }}</a></li>
+                                                <li role="presentation"><a class="move_action" href="/leases" tabindex="-1" role="menuitem">{{ escape(ip_range) }}</a></li>
                                             {% end %}
                                         {% end %}
                                     </ul>
@@ -80,6 +80,9 @@
 {% end %}
 
 {% block js %}
+$('.move_action').on('click', function (e) {
+    alert('asds')
+})
 $(function () {
     $('#leases_tab a:first').tab('show');
 })
