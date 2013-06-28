@@ -17,7 +17,7 @@
     <li><a href="#temp" data-toggle="tab">Временные</a></li>
     <li><a href="#servers" data-toggle="tab">Сервера</a></li>
 </ul>
- 
+
 <div class="tab-content">
 
 {% for ip_range, leases_list in leases.iteritems() %}
@@ -25,7 +25,7 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Name</th><th>IP</th><th>MAC</th>
+                    <th>Name</th><th>IP</th><th>MAC</th><th>move</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +34,23 @@
                         <td>{{ escape(lease.name) }}</td>
                         <td>{{ escape(lease.ip) }}</td>
                         <td>{{ escape(lease.mac) }}</td>
+                        <td>
+                            <ul class="nav nav-pills">
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" href="/lesaes">
+                                        Move to
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        {% for ip_range in leases %}
+                                            {% if ip_range!='temp' %}
+                                                <li role="presentation"><a href="#myModal" data-toggle="modal" tabindex="-1" role="menuitem">{{ escape(ip_range) }}</a></li>
+                                            {% end %}
+                                        {% end %}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
                 {% end %}
             </tbody>
@@ -42,8 +59,24 @@
 {% end %}
 
 </div>
-
  
+<!-- Button to trigger modal -->
+ 
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Modal header</h3>
+    </div>
+    <div class="modal-body">
+        <p>One fine body…</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Save changes</button>
+    </div>
+</div>
+
 {% end %}
 
 {% block js %}
