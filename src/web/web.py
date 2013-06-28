@@ -26,7 +26,7 @@ def main():
     tornado.options.parse_command_line()
     application = tornado.web.Application(
         [
-            # (r"/", MainHandler),
+            (r"/", tornado.web.RedirectHandler, {"url": "/leases"}),
             (r"/leases", LeasesHandler),
             (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': os.path.join(os.path.dirname(__file__), "static")}),
         ],
