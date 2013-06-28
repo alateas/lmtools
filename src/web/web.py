@@ -28,7 +28,7 @@ def main():
         [
             # (r"/", MainHandler),
             (r"/leases", LeasesHandler),
-            (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
+            (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': os.path.join(os.path.dirname(__file__), "static")}),
         ],
         template_path=os.path.join(os.path.dirname(__file__), "templates"),
         debug=True
