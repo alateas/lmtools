@@ -15,6 +15,6 @@ class Dhcp():
     def get_range(self, ip_start, ip_stop):
         out = []
         for lease in self.__get_leases():
-            if (lease.ip > ip_start) and (lease.ip < ip_stop):
+            if ip_start <= lease.ip <= ip_stop:
                 out.append(lease)
         return out
