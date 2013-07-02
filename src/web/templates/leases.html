@@ -45,7 +45,7 @@
                                         {% for ip_range in leases %}
                                             {% if ip_range!='temp' %}
                                                 <li role="presentation">
-                                                    <a class="move_action" href="#" tabindex="-1" role="menuitem" onclick="atata('{{ escape(lease.ip) }}', '{{ escape(ip_range) }}')">
+                                                    <a class="move_action" href="#" tabindex="-1" role="menuitem" onclick="move_lease('{{ escape(lease.ip) }}', '{{ escape(ip_range) }}')">
                                                         {{ escape(ip_range) }}
                                                     </a></li>
                                             {% end %}
@@ -84,8 +84,9 @@
 
 {% block js %}
 function move_lease (ip, dest_range){
-    alert('ip:'+ip)  
-    alert('dest_range:'+dest_range)  
+    $('#myModal').modal('show')
+    {# alert('ip:'+ip)   #}
+    {# alert('dest_range:'+dest_range)   #}
 }
 $(function () {
     $('#leases_tab a:first').tab('show');
