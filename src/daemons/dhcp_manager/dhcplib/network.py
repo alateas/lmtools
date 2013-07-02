@@ -34,8 +34,14 @@ class Ip():
     def __gt__(self, ip2):
         return socket.inet_aton(str(self)) > socket.inet_aton(str(ip2))
 
+    def __ge__(self, ip2):
+        return socket.inet_aton(str(self)) >= socket.inet_aton(str(ip2))
+
     def __lt__(self, ip2):
         return socket.inet_aton(str(self)) < socket.inet_aton(str(ip2))
+
+    def __le__(self, ip2):
+        return socket.inet_aton(str(self)) <= socket.inet_aton(str(ip2))
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
