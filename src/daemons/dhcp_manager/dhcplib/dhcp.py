@@ -1,5 +1,6 @@
 from dhcp_parser import DhcpParser
 from dhcp_request import DhcpRequest
+
 class Dhcp():
     def __init__(self, server, user, password):
         self.__request = DhcpRequest(server, user, password)
