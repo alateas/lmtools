@@ -1,10 +1,10 @@
 def main():
     from dhcp import Dhcp
-    from network import Ip
+    from network import Ip, Mac
     import test_pass
 
     dhcp = Dhcp(test_pass.info['server'], test_pass.info['login'], test_pass.info['password'])
-    print dhcp.create_lease_in_range(Ip(192,168,107,17), Ip(192,168,107,30), 'asd')
+    print dhcp.get_range(Ip(192,168,107,4), Ip(192,168,107,10))
 
 if __name__ == '__main__':
     main()
