@@ -1,5 +1,5 @@
 from dhcplib.dhcp import Dhcp
-from dhcplib.network import Ip
+from dhcplib.network import Ip, Mac
 from passw import info
 
 import leases_pb2
@@ -14,11 +14,25 @@ class DhcpModel(object):
     def __get_all_leases(self):
         return self.__dhcp.get_all()
 
+    def __create_lease(self, ip1, ip2, mac):
+        return self.__dhcp.create_lease_in_range(Ip.from_string(ip1), Ip.from_string(ip2), Mac(mac))
+
     def get_pb_leases_by_range(self, ip1, ip2):
         return self.__wrap_leases_to_pb( self.__get_leases_by_range(ip1, ip2) )
 
     def get_pb_all_leases(self):
         return self.__wrap_leases_to_pb( self.__get_all_leases() )
+
+    def pb_create_lease(self, ip1, ip2, mac):
+        return self.__wrap_lease_to_pb( self.__create_lease(ip1, ip2, mac) )
+
+    def __wrap_lease_to_pb(self, lease):
+        pb_lease = leases_pb2.Lease()
+        pb_lease.name = lease.name
+        pb_lease.ip   = str(lease.ip)
+        pb_lease.mac  = str(lease.mac)
+
+        return pb_lease.SerializeToString()
 
     def __wrap_leases_to_pb(self, leases):
         pb_leases = leases_pb2.LeasesSet()

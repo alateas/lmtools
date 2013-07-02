@@ -43,5 +43,5 @@ class Dhcp():
         ip = self.__get_first_free_ip(ip_start, ip_stop)
         if lease and ip:
             self.__request.create_lease(ip, mac, lease.name)
-            return ip
+            return lease
         return None

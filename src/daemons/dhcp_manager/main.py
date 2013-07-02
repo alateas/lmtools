@@ -29,7 +29,7 @@ class App():
 
         self.__controller = controller.DhcpController()
 
-        debug = False
+        debug = True
         self.stdin_path = '/dev/null'
         if debug:
             self.stdout_path = self.stderr_path = '/dev/tty'

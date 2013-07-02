@@ -6,6 +6,7 @@ class DhcpController(object):
     __router = {
         'leases_get_all': commands.LeasesGetAll(),
         'leases_get_range': commands.LeasesGetRange(),
+        'leases_create_lease': commands.CreateLease(),
     }
 
     def request(self, body):
