@@ -6,10 +6,9 @@ class Dhcp():
     def __init__(self, server, user, password):
         self.__request = DhcpRequest(server, user, password)
         self.__parser = DhcpParser()
-        self.__leases = self.__parser.parse( self.__request.get_leases() )
 
     def get_all(self):
-        return self.__leases
+        return self.__parser.parse( self.__request.get_leases() )
         
     def get_range(self, ip_start, ip_stop):
         if ip_start.num1 != ip_stop.num1 or ip_start.num2 != ip_stop.num2 or ip_start.num3 != ip_stop.num3:
