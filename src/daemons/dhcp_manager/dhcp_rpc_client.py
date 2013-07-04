@@ -47,7 +47,8 @@ class DhcpRpcClient(object):
 
     def __parse_raw_lease(self, raw):
         pb_lease = leases_pb2.Lease()
-        return pb_lease.ParseFromString(raw)
+        pb_lease.ParseFromString(raw)
+        return pb_lease
 
     def get_all(self):
         return self.__parse_raw_leases( self.__do_request('leases_get_all') )

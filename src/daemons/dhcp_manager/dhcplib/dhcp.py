@@ -1,4 +1,4 @@
-from dhcp_parser import DhcpParser
+from dhcp_parser import DhcpParser, ReservedLease
 from dhcp_request import DhcpRequest
 from network import Ip
 
@@ -43,5 +43,5 @@ class Dhcp():
         ip = self.__get_first_free_ip(ip_start, ip_stop)
         if lease and ip:
             self.__request.create_lease(ip, mac, lease.name)
-            return lease
+            return ReservedLease(ip, mac, lease.name)
         return None

@@ -11,4 +11,4 @@ client = DhcpRpcClient()
 # for lease in client.get_all():
     # print "%s %s %s" % (lease.name, lease.ip, lease.mac, )
 
-print client.create_lease('192.168.107.4', '192.168.107.255', '001377f2c875')
+print client.create_lease('192.168.107.4', '192.168.107.255', '00221572c4f6')
