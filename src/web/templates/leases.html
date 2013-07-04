@@ -4,6 +4,16 @@
 
 {% block content %}
 
+<div class="alert alert-block alert-success hide">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p>
+        <strong>Резервация создана!</strong><br />
+        <strong>Имя:</strong><span id="info_name"></span><br />
+        <strong>IP:</strong><span id="info_ip"></span><br />
+        <strong>Диапазон:</strong><span id="info_range"></span>
+    </p>
+</div>
+
 <ul class="nav nav-tabs" id="leases_tab">
     <li><a href="#thin_clients" data-toggle="tab">Тонкие клиенты</a></li>
     <li><a href="#machine" data-toggle="tab">Станки</a></li>
@@ -45,7 +55,7 @@
                                         {% for ip_range in leases %}
                                             {% if ip_range!='temp' %}
                                                 <li role="presentation">
-                                                    <a class="move_action" href="#" tabindex="-1" role="menuitem" onclick="create_lease ('{{ escape(lease.ip) }}', '{{ escape(ip_range) }}')">
+                                                    <a class="move_action" href="#" tabindex="-1" role="menuitem" onclick="create_lease ('{{ escape(lease.name) }}', '{{ escape(lease.mac) }}', '{{ escape(ip_range) }}')">
                                                         {{ escape(ip_range) }}
                                                     </a></li>
                                             {% end %}
@@ -67,7 +77,7 @@
  
 <!-- Modal -->
 <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div id="ip" hidden></div>
+    <div id="mac" hidden></div>
     <div id="dest_range" hidden></div>
 
     <div class="modal-header">
@@ -75,7 +85,8 @@
         <h3 id="myModalLabel">Подтверждение</h3>
     </div>
     <div class="modal-body">
-        <p class="modal_content">IP: <b><span id="modal_ip"></span></b></p>
+        <p class="modal_content">Имя: <b><span id="modal_name"></span></b></p>
+        <p class="modal_content">MAC: <b><span id="modal_mac"></span></b></p>
         <p class="modal_content">Диапазон: <b><span id="modal_dest_range"></span></b></p>
         <p>Вы уверены что хотите создать постоянное резервирование?</p>
     </div>
@@ -88,18 +99,33 @@
 {% end %}
 
 {% block js %}
-function create_lease (ip, dest_range){
-    $('.modal_content #modal_ip').html(ip)
+function create_lease (name, mac, dest_range){
+    $('.modal_content #modal_name').html(name)
+    $('.modal_content #modal_mac').html(mac)
     $('.modal_content #modal_dest_range').html(dest_range)
-    $('#confirmModal #ip').html(ip)
+    $('#confirmModal #mac').html(mac)
     $('#confirmModal #dest_range').html(dest_range)
     $('#confirmModal').modal('show')
 }
 
 $('#create_submit').on('click', function () {
-    ip = $('#confirmModal #ip').html()
-    dest_range = $('#confirmModal #dest_range')
-})
+    mac_v = $('#confirmModal #mac').html();
+    dest_range_v = $('#confirmModal #dest_range').html();
+
+    $.post("/ajax/create_lease", { mac: String(mac_v), dest_range: String(dest_range_v) },
+         function(data){
+            if(data.status=='OK'){
+                {# $(".alert").alert('close') #}
+                $('#info_name').html(data.name)
+                $('#info_ip').html(data.ip)
+                $('#info_range').html(dest_range_v)
+                $(".alert").show()
+            } else {
+                alert('error!')
+            }
+         }, "json"
+    );
+});
 
 $(function () {
     $('#leases_tab a:first').tab('show');
