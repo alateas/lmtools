@@ -15,12 +15,13 @@ class LeasesManager(object):
         'servers'         : ('192.168.111.1',   '192.168.111.255'),
     }
 
-    def __init__(self, leases):
-        self.___raw_leases = leases
+    def get_ips_by_range_name(self, range_name):
+        return self.__ranges[range_name][0], self.__ranges[range_name][1]
 
-    def get_sorted_leases(self):
+    def get_sorted_leases(self, raw_leases):
+
         sorted_leases = dict([key, []] for key, ip_range in self.__ranges.iteritems())
-        for lease in self.___raw_leases:
+        for lease in raw_leases:
             if not lease.name:
                 lease.name = "-"
             sorted_leases[self.__get_range(lease)].append(lease)

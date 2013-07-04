@@ -14,3 +14,7 @@ class LeasesGetAll(Command):
 class LeasesGetRange(Command):
     def call(self, params):
         return self._model.get_pb_leases_by_range(params[0], params[1])
+
+class CreateLease(Command):
+    def call(self, params):
+        return self._model.pb_create_lease(params[0], params[1], params[2])
