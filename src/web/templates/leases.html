@@ -4,6 +4,16 @@
 
 {% block content %}
 
+<div class="alert alert-block alert-success hide">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p>
+        <strong>Резервация создана!</strong><br />
+        <strong>Имя:</strong><span id="info_name"></span><br />
+        <strong>IP:</strong><span id="info_ip"></span><br />
+        <strong>Диапазон:</strong><span id="info_range"></span>
+    </p>
+</div>
+
 <ul class="nav nav-tabs" id="leases_tab">
     <li><a href="#thin_clients" data-toggle="tab">Тонкие клиенты</a></li>
     <li><a href="#machine" data-toggle="tab">Станки</a></li>
@@ -17,7 +27,7 @@
     <li><a href="#temp" data-toggle="tab">Временные</a></li>
     <li><a href="#servers" data-toggle="tab">Сервера</a></li>
 </ul>
- 
+
 <div class="tab-content">
 
 {% for ip_range, leases_list in leases.iteritems() %}
@@ -25,7 +35,7 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Name</th><th>IP</th><th>MAC</th>
+                    <th>Name</th><th>IP</th><th>MAC</th><th>move</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +44,26 @@
                         <td>{{ escape(lease.name) }}</td>
                         <td>{{ escape(lease.ip) }}</td>
                         <td>{{ escape(lease.mac) }}</td>
+                        <td>
+                            <ul class="nav nav-pills">
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" href="/lesaes">
+                                        Создать резервироване
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        {% for ip_range in leases %}
+                                            {% if ip_range!='temp' %}
+                                                <li role="presentation">
+                                                    <a class="move_action" href="#" tabindex="-1" role="menuitem" onclick="create_lease ('{{ escape(lease.name) }}', '{{ escape(lease.mac) }}', '{{ escape(ip_range) }}')">
+                                                        {{ escape(ip_range) }}
+                                                    </a></li>
+                                            {% end %}
+                                        {% end %}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
                 {% end %}
             </tbody>
@@ -42,11 +72,61 @@
 {% end %}
 
 </div>
-
  
+<!-- Button to trigger modal -->
+ 
+<!-- Modal -->
+<div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="mac" hidden></div>
+    <div id="dest_range" hidden></div>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Подтверждение</h3>
+    </div>
+    <div class="modal-body">
+        <p class="modal_content">Имя: <b><span id="modal_name"></span></b></p>
+        <p class="modal_content">MAC: <b><span id="modal_mac"></span></b></p>
+        <p class="modal_content">Диапазон: <b><span id="modal_dest_range"></span></b></p>
+        <p>Вы уверены что хотите создать постоянное резервирование?</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
+        <button id="create_submit" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Создать</button>
+    </div>
+</div>
+
 {% end %}
 
 {% block js %}
+function create_lease (name, mac, dest_range){
+    $('.modal_content #modal_name').html(name)
+    $('.modal_content #modal_mac').html(mac)
+    $('.modal_content #modal_dest_range').html(dest_range)
+    $('#confirmModal #mac').html(mac)
+    $('#confirmModal #dest_range').html(dest_range)
+    $('#confirmModal').modal('show')
+}
+
+$('#create_submit').on('click', function () {
+    mac_v = $('#confirmModal #mac').html();
+    dest_range_v = $('#confirmModal #dest_range').html();
+
+    $.post("/ajax/create_lease", { mac: String(mac_v), dest_range: String(dest_range_v) },
+         function(data){
+            if(data.status=='OK'){
+                {# $(".alert").alert('close') #}
+                $('#info_name').html(data.name)
+                $('#info_ip').html(data.ip)
+                $('#info_range').html(dest_range_v)
+                $(".alert").show()
+            } else {
+                alert('error!')
+            }
+         }, "json"
+    );
+});
+
 $(function () {
     $('#leases_tab a:first').tab('show');
 })

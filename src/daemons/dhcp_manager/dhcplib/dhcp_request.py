@@ -35,3 +35,6 @@ class DhcpRequest():
 
     def get_leases(self):
         return self.__server_call("netsh dhcp server scope 192.168.104.0 show clients 1")
+
+    def create_lease(self, ip, mac, name):
+        return self.__server_call("netsh dhcp server scope 192.168.104.0 add reservedip %s %s '%s'" % (ip, mac, name))
