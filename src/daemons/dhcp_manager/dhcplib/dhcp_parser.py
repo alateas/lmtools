@@ -16,7 +16,7 @@ class Lease():
         self.name = name
 
     def __str__(self):
-        return "{%s} %s [%s]" % (self.name.encode('utf-8'), self.ip, self.mac)
+        return "{%s} %s [%s]" % (self.name, self.ip, self.mac)
 
     def __repr__(self):
         return "%s(%s)" % ( self.__class__, self.__str__() )
