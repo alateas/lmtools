@@ -7,8 +7,8 @@ import tornado.httpclient
 import os
 import json
 
+from basic import require_basic_auth
 import ldapauth
-
 from dhcp_rpc_client import DhcpRpcClient
 from leases_manager import LeasesManager
 

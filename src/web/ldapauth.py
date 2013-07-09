@@ -7,19 +7,16 @@ import ldap
 import logging
 
 # where to start the search for users
-LDAP_SEARCH_BASE = 'ou=People,dc=yourdomain,dc=com'
+LDAP_SEARCH_BASE = 'ou=users,ou=IT,dc=uz,dc=local'
 
 # the server to auth against
-LDAP_URL = 'ldap://ldap.yourdomain.com'
-
-# The attribute we try to match the username against.
-LDAP_UNAME_ATTR = 'uid'
-
-# The attribute we need to retrieve in order to perform a bind.
-LDAP_BIND_ATTR = 'dn'
+LDAP_URL = 'ldap://192.168.111.23'
 
 # Whether to use LDAPv3. Highly recommended.
 LDAP_VERSION_3 = True
+
+# The attribute we need to retrieve in order to perform a bind.
+LDAP_BIND_ATTR = 'dn'
 
 def auth_user_ldap(uname, pwd):
     """
@@ -34,9 +31,9 @@ def auth_user_ldap(uname, pwd):
     ld = ldap.initialize(LDAP_URL)
     if LDAP_VERSION_3:
         ld.set_option(ldap.VERSION3, 1)
-    ld.start_tls_s()
-    udn = ld.search_s(LDAP_SEARCH_BASE, ldap.SCOPE_ONELEVEL,
-                           '(%s=%s)' % (LDAP_UNAME_ATTR,uname), [LDAP_BIND_ATTR])
+    ld.simple_bind_s("lmtools","lllmmm")
+    udn = ld.search_s(LDAP_SEARCH_BASE, ldap.SCOPE_SUBTREE,
+                           "(&(objectCategory=person)(objectClass=user)(memberOf:1.2.840.113556.1.4.1941:=cn=it,ou=groups,ou=IT,dc=uz,dc=local)(sAMAccountName=%s))" % uname, [LDAP_BIND_ATTR])
     if udn:
         try:
             bindres = ld.simple_bind_s(udn[0][0], pwd)

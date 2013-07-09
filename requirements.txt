@@ -4,3 +4,4 @@ wsgiref
 python-daemon
 pika
 protobuf
+python-ldap
