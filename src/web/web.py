@@ -18,11 +18,13 @@ define("port", default=8888, help="run on the given port", type=int)
 
 lm = LeasesManager()
 
-@require_basic_auth('daniel.uz.local', ldapauth.auth_user_ldap)
+@require_basic_auth('AuthRealm', ldapauth.auth_user_ldap)
 class LeasesHandler(tornado.web.RequestHandler):
     def get(self):
+        
         self.render("leases.html", leases = lm.get_sorted_leases(DhcpRpcClient().get_all()))
 
+@require_basic_auth('AuthRealm', ldapauth.auth_user_ldap)
 class CreateLease(tornado.web.RequestHandler):
     def post(self):
         dest_range, mac = self.get_argument('dest_range'), self.get_argument('mac')
