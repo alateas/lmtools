@@ -20,6 +20,17 @@ class Dhcp():
                 out.append(lease)
         return out
 
+    def create_lease_in_range(self, ip_start, ip_stop, mac):
+        lease = self.__get_lease_by_mac(mac)
+        ip = self.__get_first_free_ip(ip_start, ip_stop)
+        if lease and ip:
+            if self.__request.create_lease(ip, mac, lease.name):
+                return ReservedLease(ip, mac, lease.name)
+        return None
+
+    def delete_lease(self, ip):
+        return self.__request.delete_lease(ip)
+
     def __get_lease_by_mac(self, mac):
         leases = self.get_all()
         for lease in leases:
@@ -35,12 +46,4 @@ class Dhcp():
             if i not in last_nums:
                 return Ip(ip_start.num1, ip_start.num2, ip_start.num3, i)
 
-        return None
-
-    def create_lease_in_range(self, ip_start, ip_stop, mac):
-        lease = self.__get_lease_by_mac(mac)
-        ip = self.__get_first_free_ip(ip_start, ip_stop)
-        if lease and ip:
-            self.__request.create_lease(ip, mac, lease.name)
-            return ReservedLease(ip, mac, lease.name)
         return None
