@@ -26,6 +26,9 @@ class DhcpModel(object):
     def pb_create_lease(self, ip1, ip2, mac):
         return self.__wrap_lease_to_pb( self.__create_lease(ip1, ip2, mac) )
 
+    def pb_delete_lease(self, ip):
+        return self.__create_lease(ip1, ip2, mac)
+
     def __wrap_lease_to_pb(self, lease):
         pb_lease = leases_pb2.Lease()
         pb_lease.name = lease.name
