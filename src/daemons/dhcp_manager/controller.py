@@ -13,10 +13,10 @@ class DhcpController(object):
     def request(self, body):
         command, params = self.__parse_pb_request(body)
         if command in self.__router:
-            log("dhcp_daemon", " [x] Request: %s %s" % (command, params,))
+            log("dhcp_daemon", "[x] Request: %s %s" % (command, params,))
             return self.__router[command].call(params)
         else:
-            log("dhcp_daemon", " [x] Unknown request: %s" % command)
+            log("dhcp_daemon", "[x] Unknown request: %s" % command)
             return 'Unknown request'
             
     def __parse_pb_request(self, raw_request):
