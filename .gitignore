@@ -4,5 +4,6 @@
 *.pyo
 .env
 static/*
+logs/*
 src/dhcp/dhcplib/test_pass.py
 src/daemons/dhcp_manager/passw.py
