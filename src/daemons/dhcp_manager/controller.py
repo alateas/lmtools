@@ -7,6 +7,7 @@ class DhcpController(object):
         'leases_get_all': commands.LeasesGetAll(),
         'leases_get_range': commands.LeasesGetRange(),
         'leases_create_lease': commands.CreateLease(),
+        'leases_delete_lease': commands.DeleteLease(),
     }
 
     def request(self, body):

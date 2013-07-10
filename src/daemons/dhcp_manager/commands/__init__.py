@@ -18,3 +18,7 @@ class LeasesGetRange(Command):
 class CreateLease(Command):
     def call(self, params):
         return self._model.pb_create_lease(params[0], params[1], params[2])
+
+class DeleteLease(Command):
+    def call(self, params):
+        return self._model.pb_delete_lease(params[0])
