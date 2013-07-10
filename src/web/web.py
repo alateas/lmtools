@@ -12,9 +12,12 @@ import ldapauth
 from dhcp_rpc_client import DhcpRpcClient
 from leases_manager import LeasesManager
 
-from tornado.options import define, options
+from tornado.options import define, options, parse_command_line
+from logger import log_path
 
 define("port", default=8888, help="run on the given port", type=int)
+tornado.options.options.log_file_prefix = os.path.join(log_path, "web.log")
+tornado.options.parse_command_line()
 
 lm = LeasesManager()
 
