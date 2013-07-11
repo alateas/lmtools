@@ -32,7 +32,7 @@ class DhcpModel(object):
     def __wrap_status_to_pb(self, status):
         pb_status = leases_pb2.Status()
         pb_status.success = status
-        return pb_status..SerializeToString()
+        return pb_status.SerializeToString()
 
     def __wrap_lease_to_pb(self, lease):
         pb_lease = leases_pb2.Lease()
