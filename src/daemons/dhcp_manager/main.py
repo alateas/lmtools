@@ -30,15 +30,14 @@ class App():
 
         self.__controller = controller.DhcpController()
 
-        debug = False
+        debug = True
         self.stdin_path = '/dev/null'
         if debug:
             self.stdout_path = self.stderr_path = '/dev/tty'
         else:
             self.stdout_path = self.stderr_path = '/dev/null'
 
-        self.pidfile_path = p.realpath(p.join(p.dirname(p.realpath(__file__)), '../../tmp/dhcp_manager.pid'))
-        print self.pidfile_path
+        self.pidfile_path = p.realpath(p.join(p.dirname(p.realpath(__file__)), '../../../tmp/dhcp_manager.pid'))
         self.pidfile_timeout = 5
         
            
