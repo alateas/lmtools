@@ -29,7 +29,6 @@ class App():
             self.stdout_path = self.stderr_path = '/dev/null'
 
         self.pidfile_path = p.realpath(p.join(p.dirname(p.realpath(__file__)), '../../../tmp/dhcp_manager.pid'))
-        print self.pidfile_path
         self.pidfile_timeout = 5
         
            
