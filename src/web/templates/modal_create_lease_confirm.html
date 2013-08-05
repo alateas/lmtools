@@ -1,0 +1,17 @@
+{% extends "confirm_modal.html" %}
+
+{% block id %}confirmCreateModal{% end %}
+
+{% block hidden_fields %}
+    <div id="create_mac" hidden></div>
+    <div id="create_dest_range" hidden></div>
+{% end %}
+
+{% block body %}
+    <p class="modal_content">Имя: <b><span id="create_modal_name"></span></b></p>
+    <p class="modal_content">MAC: <b><span id="create_modal_mac"></span></b></p>
+    <p class="modal_content">Диапазон: <b><span id="create_modal_dest_range"></span></b></p>
+    <p>Вы уверены что хотите создать постоянное резервирование?</p>
+{% end %}
+
+{% block btn_name %}Создать{% end %}

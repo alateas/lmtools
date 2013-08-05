@@ -17,6 +17,9 @@ class DhcpModel(object):
     def __create_lease(self, ip1, ip2, mac):
         return self.__dhcp.create_lease_in_range(Ip.from_string(ip1), Ip.from_string(ip2), Mac(mac))
 
+    def __delete_lease(self, ip):
+        return self.__dhcp.delete_lease(Ip.from_string(ip))
+
     def get_pb_leases_by_range(self, ip1, ip2):
         return self.__wrap_leases_to_pb( self.__get_leases_by_range(ip1, ip2) )
 
@@ -27,7 +30,7 @@ class DhcpModel(object):
         return self.__wrap_lease_to_pb( self.__create_lease(ip1, ip2, mac) )
 
     def pb_delete_lease(self, ip):
-        return self.__wrap_status_to_pb(self.__create_lease(ip1, ip2, mac))
+        return self.__wrap_status_to_pb(self.__delete_lease(ip))
 
     def __wrap_status_to_pb(self, status):
         pb_status = leases_pb2.Status()

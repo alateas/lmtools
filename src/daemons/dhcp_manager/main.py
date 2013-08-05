@@ -3,6 +3,7 @@ import logging
 import time
 import os
 import os.path as p
+import sys
 
 #third party libs
 from daemon import runner
@@ -10,7 +11,7 @@ import pika
 
 #internal libs
 import controller
-from logger import log
+from logger import log, log_exception
 
 class App():
     def __init_mq(self):
@@ -35,9 +36,8 @@ class App():
     def on_request(self, ch, method, props, body):
         try:
             response = self.__controller.request(body)
-        except:
-            e = sys.exc_info()[0]
-            log('dhcp_manager', e, 40)
+        except Exception as e:
+            log_exception('dhcp_manager', e)
         else:
             ch.basic_publish(exchange='', 
                              routing_key=props.reply_to,

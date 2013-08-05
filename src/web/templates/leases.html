@@ -4,13 +4,20 @@
 
 {% block content %}
 
-<div class="alert alert-block alert-success hide">
+<div id="create_alert" class="alert alert-block alert-success hide">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <p>
         <strong>Резервация создана!</strong><br />
-        <strong>Имя:</strong><span id="info_name"></span><br />
-        <strong>IP:</strong><span id="info_ip"></span><br />
-        <strong>Диапазон:</strong><span id="info_range"></span>
+        <strong>Имя:</strong><span class="info_name"></span><br />
+        <strong>IP:</strong><span class="info_ip"></span><br />
+        <strong>Диапазон:</strong><span class="info_range"></span>
+    </p>
+</div>
+
+<div id="delete_alert" class="alert alert-block alert-success hide">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p>
+        <strong>Резервация удалена :(</strong><br />
     </p>
 </div>
 
@@ -35,7 +42,7 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Name</th><th>IP</th><th>MAC</th>{% if ip_range=='temp' %}<th>Зарезервировать</th>{% end %}
+                    <th>Name</th><th>IP</th><th>MAC</th>{% if ip_range=='temp' %}<th>Зарезервировать</th>{% else %}<th>Удалить</th>{% end %}
                 </tr>
             </thead>
             <tbody>
@@ -65,6 +72,10 @@
                                 </li>
                             </ul>
                         </td>
+                        {% else %}
+                        <td>
+                            <button type="button" class="btn btn-primary" onClick="javascript:delete_lease ('{{ escape(lease.ip) }}')">Delete</button>
+                        </td>
                         {% end %}
                     </tr>
                 {% end %}
@@ -75,33 +86,56 @@
 
 </div>
  
-<!-- Button to trigger modal -->
- 
-
+{% module Template('modal_create_lease_confirm.html') %}
+{% module Template('modal_delete_lease_confirm.html') %}
 {% end %}
 
 {% block js %}
 function create_lease (name, mac, dest_range){
-    $('.modal_content #modal_name').html(name)
-    $('.modal_content #modal_mac').html(mac)
-    $('.modal_content #modal_dest_range').html(dest_range)
-    $('#confirmModal #mac').html(mac)
-    $('#confirmModal #dest_range').html(dest_range)
-    $('#confirmModal').modal('show')
+    //init model texts
+    $('#confirmCreateModal #create_modal_name').html(name)
+    $('#confirmCreateModal #create_modal_mac').html(mac)
+    $('#confirmCreateModal #create_modal_dest_range').html(dest_range)
+    //init hidden fields
+    $('#confirmCreateModal #create_mac').html(mac)
+    $('#confirmCreateModal #create_dest_range').html(dest_range)
+    $('#confirmCreateModal').modal('show')
 }
 
-$('#create_submit').on('click', function () {
-    mac_v = $('#confirmModal #mac').html();
-    dest_range_v = $('#confirmModal #dest_range').html();
+function delete_lease (ip){
+    //init model texts
+    $('#confirmDeleteModal #delete_modal_ip').html(ip)
+    //init hidden fields
+    $('#confirmDeleteModal #delete_ip').html(ip)
+    $('#confirmDeleteModal').modal('show')
+}
+
+$('#confirmDeleteModal .confirm_submit').on('click', function () {
+    ip_v = $('#confirmDeleteModal #delete_ip').html();
+    $.post("/ajax/delete_lease", { ip: String(ip_v) },
+         function(data){
+            if(data.status=='OK'){
+                $("#delete_alert").show()
+            } else {
+                alert('error!')
+            }
+         }, "json"
+    );
+});
+
+
+$('#confirmCreateModal .confirm_submit').on('click', function () {
+    mac_v = $('#confirmCreateModal #create_mac').html();
+    dest_range_v = $('#confirmCreateModal #create_dest_range').html();
 
     $.post("/ajax/create_lease", { mac: String(mac_v), dest_range: String(dest_range_v) },
          function(data){
             if(data.status=='OK'){
                 {# $(".alert").alert('close') #}
-                $('#info_name').html(data.name)
-                $('#info_ip').html(data.ip)
-                $('#info_range').html(dest_range_v)
-                $(".alert").show()
+                $('#create_alert .info_name').html(data.name)
+                $('#create_alert .info_ip').html(data.ip)
+                $('#create_alert .info_range').html(dest_range_v)
+                $("#create_alert").show()
             } else {
                 alert('error!')
             }
