@@ -24,17 +24,21 @@ class DhcpRequest():
         else:
             return subprocess.check_output(self.__get_array_command(command), shell=False)
 
-    def __server_call(self, command):
+    def __call_with_output(self, command):
+        return self.__get_output(command, popen = True).split("\n")
+
+    def __call_with_status(self, command):
         try:
-            output = self.__get_output(command, popen = True)
+            self.__get_output(command, popen = True).split("\n")
         except subprocess.CalledProcessError, e:
-            print "[Exception output]: %s" % (e.output,)
-            raise e
-        
-        return output.split("\n")
+            return False
+        return True
 
     def get_leases(self):
-        return self.__server_call("netsh dhcp server scope 192.168.104.0 show clients 1")
+        return self.__call_with_output("netsh dhcp server scope 192.168.104.0 show clients 1")
 
     def create_lease(self, ip, mac, name):
-        return self.__server_call("netsh dhcp server scope 192.168.104.0 add reservedip %s %s '%s'" % (ip, mac, name))
+        return self.__call_with_status("netsh dhcp server scope 192.168.104.0 add reservedip %s %s '%s'" % (ip, mac, name))
+
+    def delete_lease(self, ip):
+        return self.__call_with_status("netsh dhcp server scope 192.168.104.0 delete lease %s" % ip)

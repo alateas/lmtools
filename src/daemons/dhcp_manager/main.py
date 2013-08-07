@@ -3,6 +3,7 @@ import logging
 import time
 import os
 import os.path as p
+import sys
 
 #third party libs
 from daemon import runner
@@ -29,9 +30,8 @@ class App():
     def on_request(self, ch, method, props, body):
         try:
             response = self.__controller.request(body)
-        except:
-            e = sys.exc_info()[0]
-            self.__logger.error(e)
+        except Exception as e:
+            self.__logger.exception(e)
         else:
             ch.basic_publish(exchange='', 
                              routing_key=props.reply_to,
