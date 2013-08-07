@@ -10,7 +10,7 @@ import pika
 
 #internal libs
 import controller
-from logger import log
+from logger_init
 
 class App():
     def __init_mq(self):
@@ -19,17 +19,10 @@ class App():
         self.__channel.queue_declare(queue='lmtools_dhcp_manager_rpc')
     
     def __init__(self):
+        self.__logger = logging.getLogger('dhcp_manager')
         self.__controller = controller.DhcpController()
-
-        debug = False
-        self.stdin_path = '/dev/null'
-        if debug:
-            self.stdout_path = self.stderr_path = '/dev/tty'
-        else:
-            self.stdout_path = self.stderr_path = '/dev/null'
-
+        self.stdout_path = self.stderr_path = '/dev/null'
         self.pidfile_path = p.realpath(p.join(p.dirname(p.realpath(__file__)), '../../../tmp/dhcp_manager.pid'))
-        print self.pidfile_path
         self.pidfile_timeout = 5
         
            
@@ -38,7 +31,7 @@ class App():
             response = self.__controller.request(body)
         except:
             e = sys.exc_info()[0]
-            log('dhcp_manager', e, 40)
+            self.__logger.error(e)
         else:
             ch.basic_publish(exchange='', 
                              routing_key=props.reply_to,
@@ -51,7 +44,7 @@ class App():
         self.__channel.basic_qos(prefetch_count=1)
         self.__channel.basic_consume(self.on_request, queue='lmtools_dhcp_manager_rpc')
 
-        log("dhcp_daemon", "[x] Dhcp daemon started. Awaiting RPC requests")
+        self.__logger.info("[x] Dhcp daemon started. Awaiting RPC requests")
         self.__channel.start_consuming()
 
 app = App()
