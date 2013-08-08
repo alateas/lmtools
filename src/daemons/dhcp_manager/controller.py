@@ -1,7 +1,9 @@
 import requests_pb2
 
 import commands
-from logger import log
+import logging
+
+logger = logging.getLogger('dhcp_manager')
 
 class DhcpController(object):
     __router = {
@@ -14,10 +16,10 @@ class DhcpController(object):
     def request(self, body):
         command, params = self.__parse_pb_request(body)
         if command in self.__router:
-            log("dhcp_daemon", "[x] Request: %s %s" % (command, params,))
+            logger.info("[x] Request: %s %s" % (command, params,))
             return self.__router[command].call(params)
         else:
-            log("dhcp_daemon", "[x] Unknown request: %s" % command)
+            logger.info("[x] Unknown request: %s" % command)
             return 'Unknown request'
             
     def __parse_pb_request(self, raw_request):
