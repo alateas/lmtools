@@ -13,7 +13,7 @@ from dhcp_rpc_client import DhcpRpcClient
 from leases_manager import LeasesManager
 
 from tornado.options import define, options, parse_command_line
-from logger import log_path
+from logger_init import log_path
 
 define("port", default=8888, help="run on the given port", type=int)
 tornado.options.options.log_file_prefix = os.path.join(log_path, "web.log")
@@ -40,6 +40,13 @@ class CreateLease(tornado.web.RequestHandler):
 
         self.write(response)
 
+@require_basic_auth('AuthRealm', ldapauth.auth_user_ldap)
+class DeleteLease(tornado.web.RequestHandler):
+    def post(self):
+        ip = self.get_argument('ip')
+        status = DhcpRpcClient().delete_lease(ip)
+        self.write({'status':'OK'} if status else {'status':'ERROR'})
+
 def main():
     tornado.options.parse_command_line()
     application = tornado.web.Application(
@@ -47,6 +54,7 @@ def main():
             (r"/", tornado.web.RedirectHandler, {"url": "/leases"}),
             (r"/leases", LeasesHandler),
             (r"/ajax/create_lease", CreateLease),
+            (r"/ajax/delete_lease", DeleteLease),
             (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': os.path.join(os.path.dirname(__file__), "static")}),
         ],
         template_path=os.path.join(os.path.dirname(__file__), "templates"),

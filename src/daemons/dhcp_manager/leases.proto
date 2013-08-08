@@ -9,3 +9,7 @@ message Lease {
 message LeasesSet {
   repeated Lease lease = 1;
 }
+
+message Status {
+    required bool success = 1;
+}
