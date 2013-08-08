@@ -3,7 +3,7 @@
 *.pyc
 *.pyo
 .env
-settings.py
+src/settings.py
 static/*
 logs/*
 tmp/*
