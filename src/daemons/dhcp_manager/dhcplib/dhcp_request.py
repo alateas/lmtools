@@ -1,4 +1,7 @@
 import subprocess
+import logging
+
+logger = logging.getLogger('dhcp_manager')
 
 class DhcpRequest():
     def __init__(self, server, user, password):
@@ -16,7 +19,9 @@ class DhcpRequest():
     def __get_str_command(self, command):
         formatted = self.__get_array_command(command)
         self.__single_quote_params(formatted, 8, 10)
-        return " ".join(formatted)
+        result = " ".join(formatted)
+        logger.debug("[DhcpRequest] " + result)
+        return result
 
     def __get_output(self, command, popen = False):
         if popen:
