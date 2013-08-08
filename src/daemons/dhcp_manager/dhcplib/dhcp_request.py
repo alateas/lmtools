@@ -20,14 +20,16 @@ class DhcpRequest():
         formatted = self.__get_array_command(command)
         self.__single_quote_params(formatted, 8, 10)
         result = " ".join(formatted)
-        logger.debug("[DhcpRequest] " + result)
+        logger.debug("[DhcpRequest.requestStr] " + result)
         return result
 
     def __get_output(self, command, popen = False):
         if popen:
-            return subprocess.Popen(self.__get_str_command(command), stdout=subprocess.PIPE, shell=True).communicate()[0]
+            result = subprocess.Popen(self.__get_str_command(command), stdout=subprocess.PIPE, shell=True).communicate()[0]
         else:
-            return subprocess.check_output(self.__get_array_command(command), shell=False)
+            result =  subprocess.check_output(self.__get_array_command(command), shell=False)
+        logger.debug("[DhcpRequest.output] " + result)
+        return result
 
     def __call_with_output(self, command):
         return self.__get_output(command, popen = True).split("\n")
