@@ -1,6 +1,7 @@
 import subprocess
 import logging
 
+import settings
 logger = logging.getLogger('dhcp_manager')
 
 class DhcpRequest():
@@ -20,7 +21,8 @@ class DhcpRequest():
         formatted = self.__get_array_command(command)
         self.__single_quote_params(formatted, 8, 10)
         result = " ".join(formatted)
-        logger.debug("[DhcpRequest.requestStr] " + result)
+        if settings.debug_commands:
+            logger.debug("[DhcpRequest.requestStr] " + result)
         return result
 
     def __get_output(self, command, popen = False):
@@ -28,7 +30,8 @@ class DhcpRequest():
             result = subprocess.Popen(self.__get_str_command(command), stdout=subprocess.PIPE, shell=True).communicate()[0]
         else:
             result =  subprocess.check_output(self.__get_array_command(command), shell=False)
-        logger.debug("[DhcpRequest.output] " + result)
+        if settings.debug_output:
+            logger.debug("[DhcpRequest.output] " + result)
         return result
 
     def __call_with_output(self, command):
