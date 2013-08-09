@@ -1,4 +1,4 @@
-djnew
+lmtools
 =======
 
-Prototype for django project. Ready to heroku deploy.
+Awesome automation of system administrators.
