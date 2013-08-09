@@ -1,0 +1,15 @@
+{% extends "confirm_modal.html" %}
+
+{% block id %}confirmDeleteModal{% end %}
+
+{% block hidden_fields %}
+    <div id="delete_ip" hidden></div>
+    <div id="delete_mac" hidden></div>
+{% end %}
+
+{% block body %}
+    <p class="modal_content">IP: <b><span id="delete_modal_ip"></span></b></p>
+    <p>Вы уверены что хотите удалить постоянное резервирование?</p>
+{% end %}
+
+{% block btn_name %}Удалить{% end %}
