@@ -51,4 +51,6 @@ class DhcpRequest():
         return self.__call_with_status("netsh dhcp server scope 192.168.104.0 add reservedip %s %s '%s'" % (ip, mac, name))
 
     def delete_lease(self, ip, mac):
-        return self.__call_with_status("netsh dhcp server scope 192.168.104.0 delete reservedip %s %s" % (ip, mac))
+        result = self.__call_with_status("netsh dhcp server scope 192.168.104.0 delete reservedip %s %s" % (ip, mac))
+        self.__call_with_status("netsh dhcp server scope 192.168.104.0 delete lease %s" % ip)
+        return result
