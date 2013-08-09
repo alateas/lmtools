@@ -28,8 +28,8 @@ class Dhcp():
                 return ReservedLease(ip, mac, lease.name)
         return None
 
-    def delete_lease(self, ip):
-        return self.__request.delete_lease(ip)
+    def delete_lease(self, ip, mac):
+        return self.__request.delete_lease(ip, mac)
 
     def __get_lease_by_mac(self, mac):
         leases = self.get_all()

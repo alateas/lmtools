@@ -64,5 +64,5 @@ class DhcpRpcClient(object):
     def create_lease(self, ip1, ip2, mac):
         return self.__parse_raw_lease( self.__do_request('leases_create_lease', ip1, ip2, mac) )
 
-    def delete_lease(self, ip):
-        return self.__parse_raw_status( self.__do_request('leases_delete_lease', ip) )
+    def delete_lease(self, ip, mac):
+        return self.__parse_raw_status( self.__do_request('leases_delete_lease', ip, mac) )

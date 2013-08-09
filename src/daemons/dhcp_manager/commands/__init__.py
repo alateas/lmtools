@@ -21,4 +21,4 @@ class CreateLease(Command):
 
 class DeleteLease(Command):
     def call(self, params):
-        return self._model.pb_delete_lease(params[0])
+        return self._model.pb_delete_lease(params[0], params[1])

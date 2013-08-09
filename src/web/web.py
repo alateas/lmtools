@@ -44,7 +44,8 @@ class CreateLease(tornado.web.RequestHandler):
 class DeleteLease(tornado.web.RequestHandler):
     def post(self):
         ip = self.get_argument('ip')
-        status = DhcpRpcClient().delete_lease(ip)
+        mac = self.get_argument('mac')
+        status = DhcpRpcClient().delete_lease(ip, mac)
         self.write({'status':'OK'} if status else {'status':'ERROR'})
 
 def main():

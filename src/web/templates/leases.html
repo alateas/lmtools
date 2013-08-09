@@ -74,7 +74,7 @@
                         </td>
                         {% else %}
                         <td>
-                            <button type="button" class="btn btn-primary" onClick="javascript:delete_lease ('{{ escape(lease.ip) }}')">Delete</button>
+                            <button type="button" class="btn btn-primary" onClick="javascript:delete_lease ('{{ escape(lease.ip) }}', '{{ escape(lease.mac) }}')">Delete</button>
                         </td>
                         {% end %}
                     </tr>
@@ -102,17 +102,19 @@ function create_lease (name, mac, dest_range){
     $('#confirmCreateModal').modal('show')
 }
 
-function delete_lease (ip){
+function delete_lease (ip, mac){
     //init model texts
     $('#confirmDeleteModal #delete_modal_ip').html(ip)
     //init hidden fields
     $('#confirmDeleteModal #delete_ip').html(ip)
+    $('#confirmDeleteModal #delete_mac').html(mac)
     $('#confirmDeleteModal').modal('show')
 }
 
 $('#confirmDeleteModal .confirm_submit').on('click', function () {
     ip_v = $('#confirmDeleteModal #delete_ip').html();
-    $.post("/ajax/delete_lease", { ip: String(ip_v) },
+    mac_v = $('#confirmDeleteModal #delete_mac').html();
+    $.post("/ajax/delete_lease", { ip: String(ip_v), mac:(mac_v)},
          function(data){
             if(data.status=='OK'){
                 $("#delete_alert").show()
