@@ -39,7 +39,7 @@ class App():
                              routing_key=props.reply_to,
                              properties=pika.BasicProperties(correlation_id = props.correlation_id),
                              body=response)
-            ch.basic_ack(delivery_tag = method.delivery_tag)
+        ch.basic_ack(delivery_tag = method.delivery_tag)
 
     def run(self):
         self.__init_mq()
