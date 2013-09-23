@@ -33,7 +33,7 @@ class App():
         try:
             response = self.__controller.request(body)
         except Exception as e:
-            self.__logger.exception(e)
+            logger.exception(e)
         else:
             ch.basic_publish(exchange='', 
                              routing_key=props.reply_to,
